@@ -37,6 +37,9 @@ class Neuron(object):
 
       return result
 
+   def get_weights(self):
+      return self._weights
+
 
 if __name__ == "__main__":
    neuron = Neuron((25, 15), 9)
@@ -47,12 +50,14 @@ if __name__ == "__main__":
    for i in range(10):
       for file_name in os.listdir(learnDir):
          file_path = os.path.join(learnDir, file_name)
-         data = imageutils.readBinaryImage(file_path)
+         data = imageutils.read_binary_image(file_path)
          neuron.learn(data, file_name[0] == '5')
+         #imageutils.save_array_as_image(neuron.get_weights(), -2, 2, 'out'+file_name+str(i)+'.jpg')
+   imageutils.save_array_as_image(neuron.get_weights(), -4, 4, 'outRes.jpg')
 
    testDir = os.path.join(images_dir, 'test')
    for file_name in os.listdir(testDir):
       file_path = os.path.join(testDir, file_name)
-      data = imageutils.readBinaryImage(file_path)
+      data = imageutils.read_binary_image(file_path)
       expected_answer = file_name[0] == '5'
       print((neuron.get_result(data), expected_answer))
